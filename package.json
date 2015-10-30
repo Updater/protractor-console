@@ -19,6 +19,9 @@
     "test": "mocha --compilers js:babel/register",
     "prepublish": "npm run compile"
   },
+  "peerDependencies": {
+    "protractor": "< 2.2.0"
+  },
   "dependencies": {
     "chalk": "^1.1.0",
     "lodash": "^3.10.0"
