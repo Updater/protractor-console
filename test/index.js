@@ -10,7 +10,7 @@ import Reporter from '../src/index';
 
 describe('protractor-console', () => {
 
-  let reporter, config, printerSpy;
+  let reporter, context, printerSpy;
 
   beforeEach(() => {
     let browser = global.browser = {};
@@ -29,12 +29,13 @@ describe('protractor-console', () => {
     // Workaround for lack of "new"ing the plugin, resetting before each test run.
     reporter = _.cloneDeep(Reporter);
 
-    config = {};
+    context = {};
+    context.config = {};
     printerSpy = sinon.spy();
-    config.logPrinter = printerSpy;
+    context.config.logPrinter = printerSpy;
 
     // Not explicitly testing, just surpressing header output from test results
-    config.headerPrinter = sinon.spy();
+    context.config.headerPrinter = sinon.spy();
   });
 
   afterEach(() => {
@@ -42,14 +43,14 @@ describe('protractor-console', () => {
   });
 
   it('should filter by log level', () => {
-    config.logLevels = ['debug'];
+    context.config.logLevels = ['debug'];
 
-    return reporter.postTest(config)
+    return reporter.postTest.call(context)
       .then(() => {
         expect(printerSpy).to.have.callCount(0);
 
-        config.logLevels = ['severe'];
-        return reporter.postTest(config);
+        context.config.logLevels = ['severe'];
+        return reporter.postTest.call(context);
       })
       .then(() => {
         expect(printerSpy).to.have.callCount(1);
@@ -57,9 +58,9 @@ describe('protractor-console', () => {
   });
 
   it('should group identical logs into a single line', () => {
-    config.logLevels = ['warning'];
+    context.config.logLevels = ['warning'];
 
-    return reporter.postTest(config).then(() => {
+    return reporter.postTest.call(context).then(() => {
       let match1 = getSampleOutput()[1];
       let match2 = getSampleOutput()[6];
 
