@@ -35,7 +35,9 @@ const DEFAULT_LOG_LEVELS = [
 const SPLIT_CHAR = '\u0007';
 
 export default {
-  postTest: (config) => {
+  postTest: function() {
+    let config = this.config;
+
     return browser.manage().logs().get('browser')
       .then(result => {
         if(result.length === 0) {
