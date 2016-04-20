@@ -40,6 +40,8 @@ export default {
 
     return browser.manage().logs().get('browser')
       .then(result => {
+        result = result.filter(byLogLevel, config);
+
         if (result.length === 0) {
           return;
         }
@@ -48,7 +50,6 @@ export default {
 
         _(result)
           .chain()
-          .filter(byLogLevel, config)
           .reduce(group, {})
           .forEach(printLog, config)
           .value();
