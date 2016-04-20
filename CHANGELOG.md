@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1
+##### Fixes
+* Don't print header when there are 0 results after filtering.
+
 ## 2.0.0
 ##### Breaking
 * Require `protractor` `> 2.2.0` as a `peerDependency`.
