@@ -10,7 +10,7 @@ import Reporter from '../src/index';
 
 describe('protractor-console', () => {
 
-  let reporter, context, printerSpy;
+  let reporter, context, printerSpy, headerSpy;
 
   beforeEach(() => {
     let browser = global.browser = {};
@@ -34,12 +34,13 @@ describe('protractor-console', () => {
     printerSpy = sinon.spy();
     context.config.logPrinter = printerSpy;
 
-    // Not explicitly testing, just surpressing header output from test results
-    context.config.headerPrinter = sinon.spy();
+    headerSpy = sinon.spy();
+    context.config.headerPrinter = headerSpy;
   });
 
   afterEach(() => {
     printerSpy.reset();
+    headerSpy.reset();
   });
 
   it('should filter by log level', () => {
@@ -48,12 +49,14 @@ describe('protractor-console', () => {
     return reporter.postTest.call(context)
       .then(() => {
         expect(printerSpy).to.have.callCount(0);
+        expect(headerSpy).to.have.callCount(0);
 
         context.config.logLevels = ['severe'];
         return reporter.postTest.call(context);
       })
       .then(() => {
         expect(printerSpy).to.have.callCount(1);
+        expect(headerSpy).to.have.callCount(1);
       });
   });
 
