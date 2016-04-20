@@ -8,22 +8,22 @@ var chalk = new Chalk.constructor({
 });
 
 const LEVELS = {
- debug: {
-  name: 'debug',
-  color: 'cyan'
- },
- info: {
-  name: 'info',
-  color: 'magenta'
- },
- warning: {
-  name: 'warning',
-  color: 'yellow'
- },
- severe: {
-  name: 'severe',
-  color: 'red'
- }
+  debug: {
+    name: 'debug',
+    color: 'cyan'
+  },
+  info: {
+    name: 'info',
+    color: 'magenta'
+  },
+  warning: {
+    name: 'warning',
+    color: 'yellow'
+  },
+  severe: {
+    name: 'severe',
+    color: 'red'
+  }
 };
 
 const DEFAULT_LOG_LEVELS = [
@@ -40,7 +40,7 @@ export default {
 
     return browser.manage().logs().get('browser')
       .then(result => {
-        if(result.length === 0) {
+        if (result.length === 0) {
           return;
         }
 
