@@ -35,8 +35,28 @@ const DEFAULT_LOG_LEVELS = [
 const SPLIT_CHAR = '\u0007';
 
 module.exports = {
+  enabled: true,
+
+  setup: function() {
+    // Disable the plugin if `browser.manage().logs()` isn't supported by the browser driver.
+    // E.g. GeckoDriver currently doesn't support this call and blows up with a stacktrace.
+    // https://github.com/SeleniumHQ/selenium/issues/2972
+    browser.manage().logs().get('browser').then(null, () => {
+      this.enabled = false;
+
+      logPrinter({
+        message: 'Protractor Console: This browser does not appear to support retrieving logs.',
+        level: 'warning',
+      });
+    });
+  },
+
   postTest: function() {
     let config = this.config;
+
+    if (!this.enabled) {
+      return;
+    }
 
     return browser.manage().logs().get('browser')
       .then(result => {

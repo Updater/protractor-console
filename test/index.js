@@ -8,7 +8,7 @@ let expect = chai.expect;
 chai.use(sinonChai);
 
 describe('protractor-console', () => {
-  let reporter, context, printerSpy, headerSpy;
+  let reporter,  printerSpy, headerSpy;
 
   beforeEach(() => {
     let browser = global.browser = {};
@@ -26,14 +26,12 @@ describe('protractor-console', () => {
 
     // Workaround for lack of "new"ing the plugin, resetting before each test run.
     reporter = _.cloneDeep(Reporter);
-
-    context = {};
-    context.config = {};
+    reporter.config = {};
     printerSpy = sinon.spy();
-    context.config.logPrinter = printerSpy;
+    reporter.config.logPrinter = printerSpy;
 
     headerSpy = sinon.spy();
-    context.config.headerPrinter = headerSpy;
+    reporter.config.headerPrinter = headerSpy;
   });
 
   afterEach(() => {
@@ -42,15 +40,15 @@ describe('protractor-console', () => {
   });
 
   it('should filter by log level', () => {
-    context.config.logLevels = ['debug'];
+    reporter.config.logLevels = ['debug'];
 
-    return reporter.postTest.call(context)
+    return reporter.postTest()
       .then(() => {
         expect(printerSpy).to.have.callCount(0);
         expect(headerSpy).to.have.callCount(0);
 
-        context.config.logLevels = ['severe'];
-        return reporter.postTest.call(context);
+        reporter.config.logLevels = ['severe'];
+        return reporter.postTest.call(reporter);
       })
       .then(() => {
         expect(printerSpy).to.have.callCount(1);
@@ -59,9 +57,9 @@ describe('protractor-console', () => {
   });
 
   it('should group identical logs into a single line', () => {
-    context.config.logLevels = ['warning'];
+    reporter.config.logLevels = ['warning'];
 
-    return reporter.postTest.call(context).then(() => {
+    return reporter.postTest().then(() => {
       let match1 = getSampleOutput()[1];
       let match2 = getSampleOutput()[6];
 
