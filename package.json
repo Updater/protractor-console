@@ -1,6 +1,6 @@
 {
   "name": "protractor-console",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Print console logging statements that occur during Protractor test runs.",
   "main": "src/index.js",
   "license": "MIT",
