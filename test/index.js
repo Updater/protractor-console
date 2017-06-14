@@ -82,8 +82,6 @@ describe('protractor-console', () => {
   });
 });
 
-/*jslint maxlen: 250 */
-
 function getSampleOutput() {
   return [{
     level: {
