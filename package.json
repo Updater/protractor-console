@@ -1,8 +1,8 @@
 {
   "name": "protractor-console",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Print console logging statements that occur during Protractor test runs.",
-  "main": "dist/protractor-console.js",
+  "main": "src/index.js",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -15,9 +15,10 @@
     "console"
   ],
   "scripts": {
-    "compile": "mkdirp dist && babel -o dist/protractor-console.js src/index.js",
-    "test": "mocha --compilers js:babel/register",
-    "prepublish": "npm run compile"
+    "test": "mocha"
+  },
+  "engines": {
+    "node": ">=6.4.0"
   },
   "peerDependencies": {
     "protractor": ">= 2.2.0"
@@ -27,10 +28,8 @@
     "lodash": "^3.10.0"
   },
   "devDependencies": {
-    "babel": "^5.8.3",
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
-    "mkdirp": "^0.5.1",
     "mocha": "^2.2.4",
     "sinon": "^1.15.4",
     "sinon-chai": "^2.8.0"
