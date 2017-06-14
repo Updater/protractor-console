@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import Chalk from 'chalk';
+const _ = require('lodash');
+const Chalk = require('chalk');
 
 // Need to explicitly enable colors, probably for the same reason as:
 // https://github.com/bcaudan/jasmine-spec-reporter/issues/36
@@ -34,7 +34,7 @@ const DEFAULT_LOG_LEVELS = [
 // http://stackoverflow.com/questions/1879860/most-reliable-split-character
 const SPLIT_CHAR = '\u0007';
 
-export default {
+module.exports = {
   postTest: function() {
     let config = this.config;
 

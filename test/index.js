@@ -1,15 +1,13 @@
-import sinon from 'sinon';
-import chai from 'chai';
-import sinonChai from 'sinon-chai';
+const sinon = require('sinon');
+const chai = require('chai');
+const sinonChai = require('sinon-chai');
+const _ = require('lodash');
+const Reporter = require('../src/index');
 
 let expect = chai.expect;
 chai.use(sinonChai);
 
-import _ from 'lodash';
-import Reporter from '../src/index';
-
 describe('protractor-console', () => {
-
   let reporter, context, printerSpy, headerSpy;
 
   beforeEach(() => {
