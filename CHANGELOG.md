@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.0.0
+##### Breaking
+Remove Babel transpilation. Node 6.4.0 or greater is now required.
+
+##### Fixes
+Handle `browser.manage.logs()` failing. GeckoDriver currently doesn't support it and blows up with a stack trace.
+
 ## 2.0.1
 ##### Fixes
 * Don't print header when there are 0 results after filtering.
