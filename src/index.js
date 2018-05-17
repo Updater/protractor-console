@@ -51,8 +51,7 @@ module.exports = {
     });
   },
 
-  postTest: function() {
-    let addFailure = this.addFailure;
+  postTest: function () {
     let config = this.config;
 
     if (!this.enabled) {
@@ -68,7 +67,7 @@ module.exports = {
         }
 
         result.forEach(resultLine => {
-          if (config.failOnSevere && resultLine.level.name === LEVELS.severe.name) {
+          if (config.failOnSevere && resultLine.level.name.toLowerCase() === LEVELS.severe.name) {
             config.addFailure(`Test failed due to ${LEVELS.severe.name} level message`);
           }
         });

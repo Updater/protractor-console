@@ -8,7 +8,7 @@ let expect = chai.expect;
 chai.use(sinonChai);
 
 describe('protractor-console', () => {
-  let reporter, printerSpy, headerSpy;
+  let reporter, printerSpy, headerSpy, addFailureSpy;
 
   beforeEach(() => {
     let browser = global.browser = {};
@@ -32,11 +32,44 @@ describe('protractor-console', () => {
 
     headerSpy = sinon.spy();
     reporter.config.headerPrinter = headerSpy;
+
+    addFailureSpy = sinon.spy();
+    reporter.config.addFailure = addFailureSpy;
   });
 
   afterEach(() => {
     printerSpy.reset();
     headerSpy.reset();
+    addFailureSpy.reset();
+  });
+
+  it('should fail tests when severe error and failOnSevere==true', () => {
+    reporter.config.failOnSevere = true;
+    expect(addFailureSpy).to.have.callCount(0);
+
+    return reporter.postTest()
+      .then(() => {
+        expect(addFailureSpy).to.have.callCount(1);
+      });
+  });
+
+  it('should not fail tests when severe error and failOnSevere==false', () => {
+    reporter.config.failOnSevere = false;
+    expect(addFailureSpy).to.have.callCount(0);
+
+    return reporter.postTest()
+      .then(() => {
+        expect(addFailureSpy).to.have.callCount(0);
+      });
+  });
+
+  it('should not fail tests when severe error and failOnSevere undefined', () => {
+    expect(addFailureSpy).to.have.callCount(0);
+
+    return reporter.postTest()
+      .then(() => {
+        expect(addFailureSpy).to.have.callCount(0);
+      });
   });
 
   it('should filter by log level', () => {
