@@ -32,44 +32,65 @@ describe('protractor-console', () => {
 
     headerSpy = sinon.spy();
     reporter.config.headerPrinter = headerSpy;
-
-    addFailureSpy = sinon.spy();
-    reporter.config.addFailure = addFailureSpy;
   });
 
   afterEach(() => {
     printerSpy.reset();
     headerSpy.reset();
-    addFailureSpy.reset();
+  });
+
+  it('runs without addFailureSpy', () => {
+    reporter.config.failOnSevere = true;
+
+    return reporter.postTest()
+      .then(() => {
+        expect(headerSpy).to.have.callCount(0);
+        return reporter.postTest.call(reporter);
+      })
+      .then(() => {
+        expect(headerSpy).to.have.callCount(1);
+      });
   });
 
   it('should fail tests when severe error and failOnSevere==true', () => {
     reporter.config.failOnSevere = true;
+    addFailureSpy = sinon.spy();
+    reporter.config.addFailure = addFailureSpy;
     expect(addFailureSpy).to.have.callCount(0);
 
     return reporter.postTest()
       .then(() => {
         expect(addFailureSpy).to.have.callCount(1);
       });
+
+    addFailureSpy.reset();
   });
 
   it('should not fail tests when severe error and failOnSevere==false', () => {
     reporter.config.failOnSevere = false;
+    addFailureSpy = sinon.spy();
+    reporter.config.addFailure = addFailureSpy;
     expect(addFailureSpy).to.have.callCount(0);
 
     return reporter.postTest()
       .then(() => {
         expect(addFailureSpy).to.have.callCount(0);
       });
+
+    addFailureSpy.reset();
   });
 
   it('should not fail tests when severe error and failOnSevere undefined', () => {
+    addFailureSpy = sinon.spy();
+    reporter.config.addFailure = addFailureSpy;
     expect(addFailureSpy).to.have.callCount(0);
 
     return reporter.postTest()
       .then(() => {
         expect(addFailureSpy).to.have.callCount(0);
       });
+
+    addFailureSpy.reset();
   });
 
   it('should filter by log level', () => {
