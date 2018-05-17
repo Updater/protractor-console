@@ -52,7 +52,12 @@ module.exports = {
   },
 
   postTest: function () {
+    // this == ProtractorPlugin
+    // from: https://github.com/angular/protractor/blob/c6703a5ea8ce7a837193ecf478c2096d8c6e99e9/lib/plugins.ts#L25
     let config = this.config;
+    // addFailure == ProtractorPlugin.addFailure
+    // https://github.com/angular/protractor/blob/c6703a5ea8ce7a837193ecf478c2096d8c6e99e9/lib/plugins.ts#L243
+    let addFailure = this.addFailure;
 
     if (!this.enabled) {
       return;
@@ -68,7 +73,7 @@ module.exports = {
 
         result.forEach(resultLine => {
           if (config.failOnSevere && resultLine.level.name.toLowerCase() === LEVELS.severe.name) {
-            config.addFailure(`Test failed due to ${LEVELS.severe.name} level message`);
+            addFailure(`Test failed due to ${LEVELS.severe.name} level message`);
           }
         });
 
