@@ -67,9 +67,11 @@ module.exports = {
           return;
         }
 
-        if (config.failOnMessage) {
-          addFailure('Unexpected console messages were logged.');
-        }
+        result.forEach(resultLine => {
+          if (config.failOnSevere && resultLine.level.name === LEVELS.severe.name) {
+            config.addFailure(`Test failed due to ${LEVELS.severe.name} level message`);
+          }
+        });
 
         printHeader.call(config);
 
