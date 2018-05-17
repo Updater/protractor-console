@@ -26,4 +26,4 @@ exports.config = {
 
 ### Configuration
 * `logLevels`: Inclusive `Array` filter for which log levels to show. Can be any of `'debug'`, `'info'`, `'warning'` and `'severe'`. Defaults to `['severe', 'warning']`.
-
+* `failOnSevere`: `Boolean` for failing the tests when `'severe'` level errors detected. Disabled by default.
