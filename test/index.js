@@ -8,7 +8,7 @@ let expect = chai.expect;
 chai.use(sinonChai);
 
 describe('protractor-console', () => {
-  let reporter,  printerSpy, headerSpy;
+  let reporter, printerSpy, headerSpy;
 
   beforeEach(() => {
     let browser = global.browser = {};
