@@ -71,7 +71,7 @@ module.exports = {
         _(result)
           .chain()
           .reduce(group, {})
-          .forEach(printLog, config)
+          .forEach((count, log) => printLog(count, log, config))
           .value();
       });
   }
@@ -103,14 +103,14 @@ function headerPrinter() {
   console.log(chalk.underline(header));
 }
 
-function printLog(count, log) {
+function printLog(count, log, config) {
   let split = log.split(SPLIT_CHAR);
   let options = {
     message: split[0],
     level: split[1],
     count
   };
-  let printer = this.logPrinter || logPrinter;
+  let printer = config.logPrinter || logPrinter;
   printer.call(printer, options);
 }
 
