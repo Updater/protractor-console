@@ -52,6 +52,7 @@ module.exports = {
   },
 
   postTest: function() {
+    let addFailure = this.addFailure;
     let config = this.config;
 
     if (!this.enabled) {
@@ -64,6 +65,10 @@ module.exports = {
 
         if (result.length === 0) {
           return;
+        }
+
+        if (config.failOnMessage) {
+          addFailure('Unexpected console messages were logged.');
         }
 
         printHeader.call(config);
