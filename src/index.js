@@ -49,9 +49,11 @@ module.exports = {
         level: 'warning',
       });
     });
+
+    global.PROTRACTOR_CONSOLE_EXCLUDE_REGEX = { };
   },
 
-  postTest: function() {
+  postTest: function(passed, testInfo) {
     let config = this.config;
 
     if (!this.enabled) {
@@ -60,7 +62,14 @@ module.exports = {
 
     return browser.manage().logs().get('browser')
       .then(result => {
-        result = result.filter(byLogLevel, config);
+        result = result
+          .filter(byLogLevel, config)
+          .filter(function(log) {
+            let testExcludeRegex = global.PROTRACTOR_CONSOLE_EXCLUDE_REGEX[testInfo.name];
+            let excludedByConfig = config.excludeRegex && log.message.match(config.excludeRegex);
+            let excludedByTest = testExcludeRegex && log.message.match(testExcludeRegex);
+            return !excludedByConfig && !excludedByTest;
+          });
 
         if (result.length === 0) {
           return;
